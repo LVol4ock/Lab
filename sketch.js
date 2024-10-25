@@ -5,10 +5,13 @@ let angle = 0;
 let char = 
     {
     posX: 250,
-    posY: 410,
-    speed: 0
+    posY: 410
     }
 let acceleration = 0;
+
+let coinX = 420;
+let coinY = 440;
+let coinSpeed = -5.1;
 
 function setup()
 {
@@ -104,23 +107,27 @@ function draw()
         vertex(100, 432);
     endShape();
 
-	//5. a collectable token - eg. a jewel, fruit, coins
+    //5. logic of moving coin
 
-	stroke(0);
+    coinY = 420 - sin(frameCount / 30) * 15
+
+	//5.1. a collectable token - eg. a jewel, fruit, coins
+
+    stroke(0);
     strokeWeight(0.5);
     fill('#665600');
-    ellipse(420, 432, 28, 30);
-    ellipse(422, 432, 26, 30);
+    ellipse(coinX, coinY, 28, 30);
+    ellipse(coinX + 2, coinY, 26, 30);
     fill('#e6c200');
-    ellipse(422, 432, 25, 29);
+    ellipse(coinX + 2, coinY, 25, 29);
     fill('#926500');
-    ellipse(422, 432, 17, 21);
+    ellipse(coinX + 2, coinY, 17, 21);
     fill('black');
     stroke("255")
     textSize(20);
-    text("$", 416.5, 439);
+    text("$", coinX - 3.5, coinY + 7);
 
-    //6. logic of rotating Red Ball
+    //6. logic of rotating Red Ball || all the objects below this section is gonna be rotated
 
     frameRate(60);
     let slowmo = 2000;
@@ -130,7 +137,7 @@ function draw()
     rotate(angle);
     angle = angle + speed / slowmo * 2 * PI;
 
-    //7. Red Ball
+    //6.1. Red Ball
 
     stroke('#44090a');
     strokeWeight(2);
@@ -147,7 +154,7 @@ function draw()
     stroke('#44090a');
     arc(newX + 4, newY - 25, 38, 48, PI * 1 / 10, PI * 16 / 28);
 
-    //8. Walls of the level
+    //7. Walls of the level
 
     if (char.posX < 20) {
         char.posX = 20;
@@ -157,7 +164,7 @@ function draw()
         speed = 0;
     }
 
-    //9. logic of smooth moving with acceleration
+    //8. logic of smooth moving with acceleration
 
     char.posX = char.posX + speed / 10;
     if ((key == 'a' || key == 'A') && speed > -80 && keyIsPressed == true) {
@@ -180,7 +187,7 @@ function draw()
             }
     }
 
-    //10. jumping with gravitation
+    //9. jumping with gravitation
 
     if (key == ' ' && char.posY == 410 && keyIsPressed == true) {
         speedY = 10;
